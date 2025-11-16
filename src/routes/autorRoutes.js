@@ -1,15 +1,16 @@
 const { Router } = require('express');
+const { verificaJWT } = require("../controllers/usuarioController");
 const { getAutores, getAutorPorId, addAutor, updateAutor, deleteAutor } = require("../controllers/autorController");
 
 const rotasAutores = Router();
 
 rotasAutores.route('/authors')
-    .get(getAutores)
-    .post(addAutor)
-    .put(updateAutor);
+    .get(verificaJWT, getAutores)
+    .post(verificaJWT, addAutor)
+    .put(verificaJWT, updateAutor);
 
 rotasAutores.route('/authors/:id')
-    .get(getAutorPorId)
-    .delete(deleteAutor);
+    .get(verificaJWT, getAutorPorId)
+    .delete(verificaJWT, deleteAutor);
 
 module.exports = { rotasAutores };

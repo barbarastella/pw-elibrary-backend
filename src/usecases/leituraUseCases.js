@@ -103,6 +103,7 @@ const updateLeituraDB = async (body) => {
              WHERE id=$1`,
             [id, user_id, book_id, status, review, rating]
         );
+
         if (updated.rowCount === 0) throw `Nenhum registro encontrado para o id ${id}, não foi possível atualizar.`;
         return await getLeituraPorIdDB(id);
     } catch (error) {
@@ -112,9 +113,9 @@ const updateLeituraDB = async (body) => {
 
 const deleteLeituraDB = async (id) => {
     try {
-        // Busca a leitura completa antes de deletar para poder retorná-la
         const leituraCompleta = await getLeituraPorIdDB(id);
         const result = await pool.query(`DELETE FROM readings WHERE id=$1`, [id]);
+
         if (result.rowCount === 0) throw `Nenhum registro encontrado para o id ${id}, não foi possível excluir.`;
         return leituraCompleta;
     } catch (error) {
